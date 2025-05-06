@@ -1,0 +1,15 @@
+# ?? .NET / Visual Studio
+.vs/
+bin/
+obj/
+# ?? Node / React
+node_modules/
+dist/
+.env
+# ?? OS-skräp
+.DS_Store
+Thumbs.db
+# ?? SQL Server-databaser ---------------------------------
+# Enskilda filer
+*.mdf
+*.ldf
