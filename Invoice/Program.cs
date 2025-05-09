@@ -10,6 +10,10 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
+builder.Services.AddMemoryCache(options =>
+{
+    options.SizeLimit = 100;
+});
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IInvoiceServise,InvoiceServices>();
 
