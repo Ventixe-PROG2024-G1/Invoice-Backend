@@ -1,3 +1,5 @@
+using EmailServiceProvider.Services;
+using Invoice.Business.Builder;
 using Invoice.Business.Services;
 using Invoice.Data.Context;
 using Invoice.Data.Repository;
@@ -14,8 +16,17 @@ builder.Services.AddMemoryCache(options =>
 {
     options.SizeLimit = 100;
 });
+builder.Services.AddScoped<IInvoiceHtmlBuilder, InvoiceHtmlBuilder>();
+builder.Services.AddScoped<IInvoicePlainTextBuilder, InvoicePlainTextBuilder>();
+
+builder.Services.AddGrpcClient<EmailContract.EmailContractClient>(o =>
+{
+    o.Address = new Uri("https://…");
+});
+
+
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-builder.Services.AddScoped<IInvoiceServise,InvoiceServices>();
+builder.Services.AddScoped<IInvoiceServices,InvoiceServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

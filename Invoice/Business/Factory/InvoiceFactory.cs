@@ -1,6 +1,5 @@
 ﻿using Invoice.Business.Models;
 using Invoice.Data.Entities;
-using Invoice.Data.Entity;
 
 namespace Invoice.Business.Factory;
 
@@ -23,10 +22,22 @@ public class InvoiceFactory
                 Price = entity.Ticket.Price,
                 Qty = entity.Ticket.Qty,
                 Amount = entity.Ticket.Amount,
+
                 CustomerId = entity.CustomerId,
                 CustomerName = entity.Customer.CustomerName,
+                CustomerAddress = entity.Customer.Address,
+                CustomerPostalCode = entity.Customer.PostalCode,
+                CustomerCity = entity.Customer.City,
+                CustomerEmail = entity.Customer.Email,
+                CustomerPhone = entity.Customer.Phone,
+
                 EventId = entity.EventId,
-                EventName = entity.Event.Event
+                EventName = entity.Event.Event,
+                EventAddress = entity.Event.Address,
+                EventPostalCode = entity.Event.PostalCode,
+                EventCity = entity.Event.City,
+                EventEmail = entity.Event.Email,
+                EventPhone = entity.Event.Phone,
             };
     }
     public static InvoiceEntity ToEntity(CreateInvoice data)
@@ -39,7 +50,8 @@ public class InvoiceFactory
             OriginalTicketId = data.OriginalTicketId,
             Title = data.Title,
             Price = data.Price,
-            Amount = data.Amount,
+            Qty = data.Qty,
+            Amount = data.Price * data.Qty,
             CreatedDate = data.CreatedDate
         };
         var customer = new CustomerSnapshot

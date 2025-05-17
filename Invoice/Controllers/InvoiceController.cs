@@ -6,7 +6,7 @@ namespace Invoice.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InvoiceController(IInvoiceServise _invoiceServices) : ControllerBase
+    public class InvoiceController(IInvoiceServices _invoiceServices) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAll()

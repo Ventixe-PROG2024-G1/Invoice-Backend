@@ -1,7 +1,7 @@
 ﻿using Invoice.Data.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Invoice.Data.Entity;
+namespace Invoice.Data.Entities;
 
 public class InvoiceEntity
 {
@@ -13,14 +13,14 @@ public class InvoiceEntity
 
     [ForeignKey(nameof(Ticket))]
     public string TicketId { get; set; } = null!;
-    public virtual TicketSnapshot Ticket {  get; set; }
+    public virtual TicketSnapshot Ticket {  get; set; } = null!;
 
     [ForeignKey(nameof(Customer))]
     public string CustomerId { get; set; } = null!;
-    public virtual CustomerSnapshot Customer{ get; set; }
+    public virtual CustomerSnapshot Customer{ get; set; } = null!;
 
     [ForeignKey(nameof(Event))]
     public string EventId { get; set; } = null!;
-    public virtual EventSnapshot Event { get; set; }
+    public virtual EventSnapshot Event { get; set; } = null!;
 
 }

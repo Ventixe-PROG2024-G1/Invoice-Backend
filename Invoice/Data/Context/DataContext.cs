@@ -1,5 +1,4 @@
 ﻿using Invoice.Data.Entities;
-using Invoice.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Invoice.Data.Context

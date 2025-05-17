@@ -1,5 +1,5 @@
 ﻿using Invoice.Data.Context;
-using Invoice.Data.Entity;
+using Invoice.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
