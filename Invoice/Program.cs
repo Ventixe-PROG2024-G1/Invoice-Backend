@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<ServiceBusSettings>(builder.Configuration.GetSection("AzureServiceBus"));
+builder.Services.Configure<ServiceBusReceiveSettings>(builder.Configuration.GetSection("AzureServiceBus:Receive"));
+builder.Services.Configure<ServiceBusSendSettings>(builder.Configuration.GetSection("AzureServiceBus:Send"));
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
