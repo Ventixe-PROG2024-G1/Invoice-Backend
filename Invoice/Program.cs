@@ -1,5 +1,6 @@
 using EmailServiceProvider.Services;
 using Invoice.Business.Builder;
+using Invoice.Business.Models;
 using Invoice.Business.Services;
 using Invoice.Data.Context;
 using Invoice.Data.Repository;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<ServiceBusSettings>(builder.Configuration.GetSection("AzureServiceBus"));
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -16,6 +18,7 @@ builder.Services.AddMemoryCache(options =>
 {
     options.SizeLimit = 100;
 });
+builder.Services.AddHostedService<ServiceBusListenerServices>();
 builder.Services.AddScoped<IInvoiceHtmlBuilder, InvoiceHtmlBuilder>();
 builder.Services.AddScoped<IInvoicePlainTextBuilder, InvoicePlainTextBuilder>();
 

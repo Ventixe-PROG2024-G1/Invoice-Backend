@@ -13,8 +13,33 @@ namespace Invoice.Business.Builder
         {
             var sb = new StringBuilder();
             sb.AppendLine("<html><body>");
-            sb.AppendLine($"<h1>Faktura #{inv.InvoiceNumber}</h1>");
-            sb.AppendLine($"<p>Datum: {inv.CreatedDate:yyyy-MM-dd}</p>");
+            sb.AppendLine(@"<div>");
+            sb.AppendLine(@"  <div>");
+            sb.AppendLine($"    <h3>#{inv.InvoiceNumber}</h3>");
+            sb.AppendLine(@"  </div>");
+            sb.AppendLine(@"  <div>");
+            sb.AppendLine($"    <p>Issued Date {inv.CreatedDate:yyyy-MM-dd}</p>");
+            sb.AppendLine($"    <p>Due Date {inv.DueDate:yyyy-MM-dd}</p>");
+            sb.AppendLine(@"  </div>");
+            sb.AppendLine(@"</div>");
+
+            // Body
+            sb.AppendLine(@"<div>");
+            sb.AppendLine(@"  <div>");
+            sb.AppendLine(@"    <p>Bill from:</p>");
+            sb.AppendLine($"    <h4>{inv.EventName}</h4>");
+            sb.AppendLine($"    <p>{inv.EventAddress}, {inv.EventPostalCode} {inv.EventCity}</p>");
+            sb.AppendLine($"    <p>{inv.EventEmail}</p>");
+            sb.AppendLine($"    <p>{inv.EventPhone}</p>");
+            sb.AppendLine(@"  </div>");
+            sb.AppendLine(@"  <div>");
+            sb.AppendLine(@"    <p>Bill to:</p>");
+            sb.AppendLine($"    <h4>{inv.CustomerName}</h4>");
+            sb.AppendLine($"    <p>{inv.CustomerAddress}, {inv.CustomerPostalCode} {inv.CustomerCity}</p>");
+            sb.AppendLine($"    <p>{inv.CustomerEmail}</p>");
+            sb.AppendLine($"    <p>{inv.CustomerPhone}</p>");
+            sb.AppendLine(@"  </div>");
+            sb.AppendLine(@"</div>");
 
             sb.AppendLine("<table border=\"1\" cellpadding=\"5\" cellspacing=\"0\">");
             sb.AppendLine("  <thead>");

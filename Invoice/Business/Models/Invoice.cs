@@ -21,6 +21,7 @@ namespace Invoice.Business.Models
         public bool Paid { get; set; }
         public string? TicketId { get; set; }
         public string? OriginalTicketId { get; set; }
+        public string Category {  get; set; }
         public string? Title { get; set; }
         public int Price { get; set; }
         public int Qty { get; set; }
