@@ -10,6 +10,7 @@ public class InvoiceEntity
     public DateTime CreatedDate { get; set; }
     public DateTime DueDate { get; set; }
     public bool Paid { get; set; }
+    public string BookingId { get; set; } = null!;
 
     [ForeignKey(nameof(Ticket))]
     public string TicketId { get; set; } = null!;

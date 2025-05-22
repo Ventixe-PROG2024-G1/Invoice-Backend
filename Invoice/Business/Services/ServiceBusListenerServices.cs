@@ -11,16 +11,10 @@ namespace Invoice.Business.Services
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<ServiceBusListenerServices> _logger;
 
-        public ServiceBusListenerServices(
-            IOptions<ServiceBusReceiveSettings> sbOptions,
-            IServiceScopeFactory scopeFactory,
-            ILogger<ServiceBusListenerServices> logger)
+        public ServiceBusListenerServices(IOptions<ServiceBusReceiveSettings> sbOptions,IServiceScopeFactory scopeFactory,ILogger<ServiceBusListenerServices> logger)
         {
             _scopeFactory = scopeFactory;
             _logger = logger;
-
-            var cs = sbOptions.Value.ConnectionString;
-            var queue = sbOptions.Value.QueueName;
 
             var client = new ServiceBusClient(sbOptions.Value.ConnectionString);
             _processor = client.CreateProcessor(
@@ -80,12 +74,13 @@ namespace Invoice.Business.Services
                 {
                     CreatedDate = order.Created.DateTime,
                     DueDate = order.Created.AddDays(30).DateTime,
+                    BookingId = order.Id.ToString(),
                     OriginalTicketId = order.TicketId,
                     Title = order.EventName,
                     Category = order.TicketCategory,
                     Price = (int)order.TicketPrice,
-                    Qty = order.TicketQuantity,
-                    Amount = order.TotalTicketPrice,
+                    Qty = (int)order.TicketQuantity,
+                    Amount = order.TotalTicketPrice * order.TicketQuantity,
                     Customer = new CustomerDto
                     {
                         CustomerName = order.UserName,

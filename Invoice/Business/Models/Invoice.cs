@@ -19,9 +19,9 @@ namespace Invoice.Business.Models
 
         [Required]
         public bool Paid { get; set; }
-        public string? TicketId { get; set; }
+        public string BookingId { get; set; }
         public string? OriginalTicketId { get; set; }
-        public string Category {  get; set; }
+        public string Category { get; set; } = null!;
         public string? Title { get; set; }
         public int Price { get; set; }
         public int Qty { get; set; }

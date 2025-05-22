@@ -6,7 +6,7 @@ public class TicketSnapshot
 {
     [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string OriginalTicketId {  get; set; } = null!;
+    public string OriginalTicketId { get; set; } = null!;
     public string Title { get; set; } = null!;
     public string Category { get; set; } = null!;
     public int Price {  get; set; }

@@ -8,6 +8,7 @@ public class CreateInvoice
     public DateTime CreatedDate { get; set; }
     public DateTime DueDate { get; set; }
     [Required]
+    public string BookingId { get; set; }
     public string OriginalTicketId { get; set; }
     public string Title { get; set; }
     public string Category { get; set; }
