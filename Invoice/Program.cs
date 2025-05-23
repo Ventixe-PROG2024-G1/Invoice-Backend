@@ -1,4 +1,3 @@
-using EmailServiceProvider.Services;
 using Invoice.Business.Builder;
 using Invoice.Business.Models;
 using Invoice.Business.Services;
@@ -10,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<ServiceBusReceiveSettings>(builder.Configuration.GetSection("AzureServiceBus:Receive"));
 builder.Services.Configure<ServiceBusSendSettings>(builder.Configuration.GetSection("AzureServiceBus:Send"));
+builder.Services.Configure<ServiceBusEmailSettings>(builder.Configuration.GetSection("AzureServiceBus:SendEmail"));
+
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -24,12 +26,6 @@ builder.Services.AddHostedService<ServiceBusListenerServices>();
 builder.Services.AddSingleton<IServiceBusPublishService, ServiceBusPublishService>();
 builder.Services.AddScoped<IInvoiceHtmlBuilder, InvoiceHtmlBuilder>();
 builder.Services.AddScoped<IInvoicePlainTextBuilder, InvoicePlainTextBuilder>();
-
-builder.Services.AddGrpcClient<EmailContract.EmailContractClient>(o =>
-{
-    o.Address = new Uri("https://localhost:7246");
-});
-
 
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IInvoiceServices,InvoiceServices>();

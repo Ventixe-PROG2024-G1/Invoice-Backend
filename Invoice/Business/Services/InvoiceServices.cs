@@ -16,7 +16,7 @@ public class InvoiceServices(IInvoiceRepository invoiceRepository, IMemoryCache 
     private const string AllInvoicesCacheKey = "all_invoices";
     private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
     private readonly IServiceBusPublishService _busPublish = busPublish;
-    private readonly ILogger<InvoiceEmailService> _logger;
+    private readonly ILogger<ServiceBusEmailService> _logger;
     private readonly IMemoryCache _cache= cache;
 
     public async Task<IEnumerable<Models.Invoice>> GetAllInvoicesAsync()

@@ -10,3 +10,9 @@ public class ServiceBusSendSettings
     public string ConnectionString { get; set; } = null!;
     public string QueueName { get; set; } = null!;
 }
+
+public class ServiceBusEmailSettings
+{
+    public string ConnectionString { get; set; } = null!;
+    public string QueueName { get; set; } = null!;
+}
