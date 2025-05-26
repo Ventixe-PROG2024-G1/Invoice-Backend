@@ -7,10 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<ServiceBusReceiveSettings>(builder.Configuration.GetSection("AzureServiceBus:Receive"));
-builder.Services.Configure<ServiceBusSendSettings>(builder.Configuration.GetSection("AzureServiceBus:Send"));
-builder.Services.Configure<ServiceBusEmailSettings>(builder.Configuration.GetSection("AzureServiceBus:SendEmail"));
-
+builder.Services.Configure<BookingServiceBusSettings>(builder.Configuration.GetSection("BookingServiceBus"));
+builder.Services.Configure<InvoiceServiceBusSettings>(builder.Configuration.GetSection("InvoiceServiceBus"));
+builder.Services.Configure<EmailServiceBusSettings>(builder.Configuration.GetSection("EmailServiceBus"));
 
 
 builder.Services.AddControllers();
