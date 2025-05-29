@@ -6,7 +6,7 @@ namespace Invoice.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InvoiceController(IInvoiceServices _invoiceServices) : ControllerBase
+    public class InvoiceController(IInvoiceServices _invoiceServices, IInvoiceEmailService _invoiceEmailService) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -22,6 +22,13 @@ namespace Invoice.Controllers
             return result == null ? NotFound() : Ok(result);
         }
 
+        [HttpGet("email/{id}")]
+        public async Task<IActionResult> GetEmailById(string id)
+        {
+            var result = await _invoiceEmailService.CreateInvoiceEmailAsync(id);
+            return result == null ? NotFound() : Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateInvoice data)
         {
@@ -29,7 +36,15 @@ namespace Invoice.Controllers
                 return BadRequest(data);
 
             var result = await _invoiceServices.CreateInvoiceAsync(data);
-            return result ? Ok() : BadRequest();
+
+            if (result is null)
+                return BadRequest("Kunde inte skapa faktura.");
+
+            return Ok(new
+            {
+                Id = result.Id,
+                BookingId = result.BookingId
+            });
         }
     }
 }

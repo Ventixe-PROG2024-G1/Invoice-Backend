@@ -5,7 +5,7 @@ namespace Invoice.Data.Entities;
 
 public class InvoiceEntity
 {
-    public string Id { get; set; }= new Guid().ToString();
+    public string Id { get; set; }= Guid.NewGuid().ToString();
     public string InvoiceNumber { get; set; } = null!;
     public DateTime CreatedDate { get; set; }
     public DateTime DueDate { get; set; }

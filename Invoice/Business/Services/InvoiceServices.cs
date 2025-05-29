@@ -1,5 +1,6 @@
 ﻿using Invoice.Business.Factory;
 using Invoice.Business.Models;
+using Invoice.Data.Entities;
 using Invoice.Data.Repository;
 using Microsoft.Extensions.Caching.Memory;
 using System.Runtime.Intrinsics.Arm;
@@ -9,14 +10,12 @@ public interface IInvoiceServices
 {
     Task<IEnumerable<Models.Invoice>> GetAllInvoicesAsync();
     Task<Models.Invoice?> GetInvoiceByIdAsync(string id);
-    Task<bool> CreateInvoiceAsync(CreateInvoice form);
+    Task<InvoiceEntity?> CreateInvoiceAsync(CreateInvoice form);
 }
-public class InvoiceServices(IInvoiceRepository invoiceRepository, IMemoryCache cache, IServiceBusPublishService busPublish) : IInvoiceServices
+public class InvoiceServices(IInvoiceRepository invoiceRepository, IMemoryCache cache) : IInvoiceServices
 {
     private const string AllInvoicesCacheKey = "all_invoices";
     private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
-    private readonly IServiceBusPublishService _busPublish = busPublish;
-    private readonly ILogger<ServiceBusEmailService> _logger;
     private readonly IMemoryCache _cache= cache;
 
     public async Task<IEnumerable<Models.Invoice>> GetAllInvoicesAsync()
@@ -57,28 +56,19 @@ public class InvoiceServices(IInvoiceRepository invoiceRepository, IMemoryCache 
 
         return model;
     }
-    public async Task<bool> CreateInvoiceAsync(CreateInvoice form )
+    public async Task<InvoiceEntity?> CreateInvoiceAsync(CreateInvoice form)
     {
         if (form == null)
-            return false;
+            return null;
 
         var entity = InvoiceFactory.ToEntity(form);
-        try
-        {
-            await busPublish.SendAsync(
-                invoiceId: entity.Id,
-                bookingId: form.BookingId);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Kunde inte skicka Service Bus‐meddelande för faktura {InvoiceId}", entity.Id);
-        }
-        return await _invoiceRepository.AddAsync(entity);
+        var success = await _invoiceRepository.AddAsync(entity);
+        if (!success)
+            return null;
+
+        return entity;
 
     }
-
-
-
 
 }
 

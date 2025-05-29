@@ -11,7 +11,7 @@ namespace Invoice.Business.Services
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<ServiceBusListenerServices> _logger;
 
-        public ServiceBusListenerServices(IOptions<ServiceBusReceiveSettings> sbOptions,IServiceScopeFactory scopeFactory,ILogger<ServiceBusListenerServices> logger)
+        public ServiceBusListenerServices(IOptions<BookingServiceBusSettings> sbOptions,IServiceScopeFactory scopeFactory,ILogger<ServiceBusListenerServices> logger)
         {
             _scopeFactory = scopeFactory;
             _logger = logger;
@@ -51,6 +51,7 @@ namespace Invoice.Business.Services
         {
             using var scope = _scopeFactory.CreateScope();
             var invoiceServices = scope.ServiceProvider.GetRequiredService<IInvoiceServices>();
+            var publishService = scope.ServiceProvider.GetRequiredService<IServiceBusPublishService>();
 
             var body = args.Message.Body.ToString();
             _logger.LogInformation("Mottog meddelande: {MessageId}", args.Message.MessageId);
@@ -101,9 +102,11 @@ namespace Invoice.Business.Services
                     }
                 };
 
-                var created = await invoiceServices.CreateInvoiceAsync(invoiceDto);
-                if (!created)
+                var createdInvoice = await invoiceServices.CreateInvoiceAsync(invoiceDto);
+                if (createdInvoice == null)
                     throw new Exception("CreateInvoiceAsync returnerade false.");
+
+                await publishService.SendAsync(createdInvoice.Id, invoiceDto.BookingId);
 
                 await args.CompleteMessageAsync(args.Message);
                 _logger.LogInformation("Meddelande {MessageId} färdigbehandlat.", args.Message.MessageId);

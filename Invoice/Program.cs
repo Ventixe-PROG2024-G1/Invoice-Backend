@@ -5,7 +5,7 @@ using Invoice.Data.Context;
 using Invoice.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args); 
 
 builder.Services.Configure<BookingServiceBusSettings>(builder.Configuration.GetSection("BookingServiceBus"));
 builder.Services.Configure<InvoiceServiceBusSettings>(builder.Configuration.GetSection("InvoiceServiceBus"));
@@ -28,6 +28,7 @@ builder.Services.AddScoped<IInvoicePlainTextBuilder, InvoicePlainTextBuilder>();
 
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IInvoiceServices,InvoiceServices>();
+builder.Services.AddScoped<IInvoiceEmailService, ServiceBusEmailService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

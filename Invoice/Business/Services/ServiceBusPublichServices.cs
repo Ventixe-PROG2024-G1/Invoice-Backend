@@ -12,7 +12,7 @@ public class ServiceBusPublishService : IAsyncDisposable, IServiceBusPublishServ
     private readonly ServiceBusClient _client;
     private readonly ServiceBusSender _sender;
 
-    public ServiceBusPublishService(IOptions<ServiceBusSendSettings> options)
+    public ServiceBusPublishService(IOptions<InvoiceServiceBusSettings> options)
     {
 
         _client = new ServiceBusClient(options.Value.ConnectionString);

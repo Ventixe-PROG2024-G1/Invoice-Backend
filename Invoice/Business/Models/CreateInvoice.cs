@@ -4,6 +4,7 @@ namespace Invoice.Business.Models;
 
 public class CreateInvoice
 {
+    public string Id { get; set; }
     [Required]
     public DateTime CreatedDate { get; set; }
     public DateTime DueDate { get; set; }
