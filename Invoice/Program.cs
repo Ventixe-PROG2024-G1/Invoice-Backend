@@ -35,6 +35,28 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+const string apiKeyHeader = "X-API-KEY";
+var configuredApiKey = builder.Configuration["ApiSettings:ApiKey"];
+
+app.Use(async (context, next) =>
+{
+    if (!context.Request.Headers.TryGetValue(apiKeyHeader, out var extractedApiKey))
+    {
+        context.Response.StatusCode = 401;
+        await context.Response.WriteAsync("API-nyckel saknas.");
+        return;
+    }
+
+    if (!configuredApiKey.Equals(extractedApiKey))
+    {
+        context.Response.StatusCode = 403;
+        await context.Response.WriteAsync("Ogiltig API-nyckel.");
+        return;
+    }
+
+    await next();
+});
+
 app.MapOpenApi();
 app.UseHttpsRedirection();
 
